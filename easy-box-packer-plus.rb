@@ -186,7 +186,7 @@ module EasyBoxPackerPlus
       
       result = {
         dimensions: final[:rotation].map {|dim| (dim).round(2)},
-        position: space[:position],
+        position: space[:position].map {|dim| (dim).round(2)},
         weight: item[:weight].to_f,
       }
       
