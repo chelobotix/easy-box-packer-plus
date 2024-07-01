@@ -185,7 +185,7 @@ module EasyBoxPackerPlus
       return unless final
       
       result = {
-        dimensions: final[:rotation],
+        dimensions: final[:rotation].map {|dim| (dim).round(2)},
         position: space[:position],
         weight: item[:weight].to_f,
       }

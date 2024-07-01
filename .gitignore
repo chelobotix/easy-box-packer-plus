@@ -16,3 +16,4 @@ mkmf.log
 .ruby-gemset
 .ruby-version
 .idea/
+tester.rb
