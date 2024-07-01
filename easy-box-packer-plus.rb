@@ -1,4 +1,4 @@
-module EasyBoxPacker
+module EasyBoxPackerPlus
   class << self
     def pack(container:, items:)
       packings = []
@@ -184,12 +184,17 @@ module EasyBoxPacker
       final = possible_rotations_and_margins.sort_by { |a| a[:margin].sort }.first
       return unless final
       
-      {
+      result = {
         dimensions: final[:rotation],
         position: space[:position],
         weight: item[:weight].to_f,
-        **item[:options]
-      }.compact
+      }
+      
+      unless item[:options].nil?
+        item[:options].each {|k,v| result[k] = v }
+      end
+      
+      result
     end
 
     def break_up_space(space, placement)
