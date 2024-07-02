@@ -8,7 +8,7 @@ This gem was created because the latter has not been updated in over six years.
 Add to gemfile:
 
 ``` ruby
-gem 'easy-box-packer-plus', '~> 0.0.4'
+gem 'easy-box-packer-plus', '~> 0.0.5'
 ```
 
 ## Usage
