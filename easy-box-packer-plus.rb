@@ -29,7 +29,7 @@ module EasyBoxPackerPlus
             # Add the item to the packing and
             # break up the surrounding spaces
             packing[:placements] += [placement]
-            packing[:weight] += item[:weight].to_f
+            packing[:weight] += item[:weight].to_f.round(2)
             packing[:spaces] -= [space]
             packing[:spaces] += break_up_space(space, placement)
             item_has_been_packed = true
@@ -56,11 +56,13 @@ module EasyBoxPackerPlus
         # and break up the remaing free space around it
         packings += [{
           placements: [placement],
-          weight: item[:weight].to_f,
+          weight: item[:weight].to_f.round(2),
           spaces: break_up_space(space, placement)
         }]
       end
 
+      packings[0][:weight] = packings[0][:weight].round(2)
+      
       if packings.size > 1 && check_container_is_bigger_than_greedy_box(container, items)
         { packings: generate_packing_for_greedy_box(items), errors: [] }
       else
@@ -435,9 +437,17 @@ module EasyBoxPackerPlus
         ]
       ]
       # PICK biggest
-      return_possible_spaces.sort_by { |a| a.map {|aa| aa[:dimensions].sort}}.last
-    end
+      dim_array = return_possible_spaces.sort_by { |a| a.map {|aa| aa[:dimensions].sort}}.last
 
+      result = dim_array&.map do |elem|
+        elem.transform_values do |value|
+          value.map { |v| v.round(2) }
+        end
+      end
+      
+      result
+    end
+ 
     def item_greedy_box(items)
       array_of_lwh            = items.map { |i| i[:dimensions].sort.reverse }
       items_max_length        = array_of_lwh.max { |x, y| x[0] <=> y[0] }[0]
